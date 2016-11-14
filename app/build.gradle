@@ -34,8 +34,6 @@ android {
         exclude 'META-INF/NOTICE'
 
     }
-
-
 }
 
 dependencies {
@@ -45,7 +43,7 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:cardview-v7:+'
     compile ('com.google.cloud:google-cloud-pubsub:+') {
-        exclude group: 'com.google.api-client', module: 'google-api-client-appengine'
+        exclude group: 'com.google.api-client'
     }
 }
 
