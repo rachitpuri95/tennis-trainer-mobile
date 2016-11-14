@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontobfuscate
+-dontwarn fi.foyt.foursquare.**
+
+-dontnote libcore.icu.ICU
+-dontnote sun.misc.Unsafe
