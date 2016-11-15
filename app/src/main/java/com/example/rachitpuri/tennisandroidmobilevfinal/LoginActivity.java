@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
 
-                                Intent loginpageIntent = new Intent(LoginActivity.this,  DepthTraining.class);
+                                Intent loginpageIntent = new Intent(LoginActivity.this, HomeActivity.class);
                                 LoginActivity.this.startActivity(loginpageIntent);
 
                             }

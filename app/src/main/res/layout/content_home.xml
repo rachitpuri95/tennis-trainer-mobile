@@ -12,7 +12,10 @@
     tools:context="com.example.rachitpuri.tennisandroidmobilevfinal.HomeActivity"
     tools:showIn="@layout/activity_home">
 
-
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Welcome!"/>
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -20,15 +23,23 @@
         android:layout_gravity="center"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="90dp"
         android:layout_marginLeft="10dp"
+        android:onClick="DirectionTraining"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
         >
 
-
-        <TextView
-            android:text="Direction Training"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+            <TextView
+                android:text="Direction Training"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"/>
+        </LinearLayout>
+
 
     </android.support.v7.widget.CardView>
 
@@ -40,13 +51,18 @@
     android:layout_width="150dp"
     android:layout_height="150dp"
     android:layout_marginLeft="190dp"
-    android:layout_marginTop="110dp"
+    android:layout_marginTop="90dp"
+        android:onClick="DepthTraining"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+
     >
 
     <TextView
         android:text="Depth Training"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"/>
 
 </android.support.v7.widget.CardView>
 
@@ -59,13 +75,19 @@
         android:layout_height="150dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="300dp"
+        android:onClick="ViewProgress"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+
+
         >
 
         <TextView
             android:text="View Progress"
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"/>
 
     </android.support.v7.widget.CardView>
 

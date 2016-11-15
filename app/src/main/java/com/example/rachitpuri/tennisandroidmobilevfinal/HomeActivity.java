@@ -1,5 +1,6 @@
 package com.example.rachitpuri.tennisandroidmobilevfinal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,23 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+    }
+
+    public void DirectionTraining(View v) {
+        // obtain myValue
+        Intent DirectionPage = new Intent(HomeActivity.this, DirectionGame.class);
+       HomeActivity.this.startActivity(DirectionPage);
+    }
+
+    public void DepthTraining(View v) {
+        // obtain myValue
+        Intent DepthPage = new Intent(HomeActivity.this, DepthTraining.class);
+        HomeActivity.this.startActivity(DepthPage);
+    }
+
+    public void ViewProgress(View v) {
+        // obtain myValue
+        String temp  = "hello";
     }
 
 }

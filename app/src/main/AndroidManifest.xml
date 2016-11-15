@@ -18,12 +18,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".DirectionTraining" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DepthTraining"></activity>
+        <activity android:name=".DepthTraining" />
+        <activity
+            android:name=".DirectionGame"
+            android:label="@string/title_activity_direction_game"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
