@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TennisAndroidMobilevFinal.iml" filepath="$PROJECT_DIR$/TennisAndroidMobilevFinal.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tennis-trainer-mobile.iml" filepath="$PROJECT_DIR$/tennis-trainer-mobile.iml" />
     </modules>
   </component>
 </project>

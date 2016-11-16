@@ -2,12 +2,17 @@ package com.example.rachitpuri.tennisandroidmobilevfinal;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+
+import com.google.api.client.repackaged.com.google.common.base.Strings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,10 +24,8 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class DirectionGame extends AppCompatActivity {
-TextView tvLeft, tvRight, tvCenter;
-    int[] tennisShots = new int[50];
-    PubSubClient myClient;
-
+TextView tvLeft, tvRight, tvCenter, score;
+    static int[] tennisShots = new int[50];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +35,6 @@ TextView tvLeft, tvRight, tvCenter;
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(DirectionGame.this);
         builder1.setMessage("Are you ready to play?");
-
-        myClient = new PubSubClient(this);
-
 
 
         builder1.setPositiveButton(
@@ -47,7 +47,6 @@ TextView tvLeft, tvRight, tvCenter;
 
                         for (int i = 0; i < 50; i++) {
                             tennisShots[i] = r.nextInt(3);
-
                         }
 
                         new StartAPI().execute();
@@ -60,135 +59,135 @@ TextView tvLeft, tvRight, tvCenter;
         tvLeft = (TextView) findViewById(R.id.tvLeft);
         tvCenter = (TextView) findViewById(R.id.tvCenter);
         tvRight=(TextView) findViewById(R.id.tvRight);
+        score = (TextView) findViewById(R.id.tvScoreCount);
+        score.setText("0");
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
     class StartAPI extends AsyncTask<Void, Void, String> {
-
-        String baseApiUrl;
-
-        protected void onPreExecute(){
-
-            baseApiUrl= "https://tennis-trainer.appspot.com/data/begin";
-        }
         @Override
         protected String doInBackground(Void... params) {
-
-
-            String JsonResponse = null;
-
-            BufferedReader reader = null;
-            HttpURLConnection urlConnection = null;
-
-            try {
-                URL url = new URL(baseApiUrl);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setDoOutput(true);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.setRequestProperty("Accept", "application/json");
-
-
-
-                InputStream inputStream = urlConnection.getInputStream();
-
-                StringBuffer buffer = new StringBuffer();
-                if(inputStream==null){
-                    return null;
-                }
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                String inputLine;
-                while ((inputLine = reader.readLine()) != null)
-                    buffer.append(inputLine + "\n");
-                if (buffer.length() == 0) {
-                    // Stream was empty. No point in parsing.
-                    return null;
-                }
-                JsonResponse = buffer.toString();
-//response data
-
-                try {
-//send to post execute
-                    return JsonResponse;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //send to post execute
-                return null;
-
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-
-                    }
-                }
-            }
-            return null;
+            HttpClient httpClient = new HttpClient();
+            String apiUrl= "https://tennis-trainer.appspot.com/data/begin";
+            return httpClient.makePOST(apiUrl);
         }
 
         protected void onPostExecute(String response){
-
             if(response==null) {
             //error handling
-
-
-
             }else{
-
                 new GetData().execute();
-
-
-               /* int count = 0;
-                while(count < 50) {
-                    if(myClient.queueData.peek() != null) {
-                        String direction = myClient.queueData.remove();
-                        Log.d(Constants.TAG, direction);
-                        count += 1;
-                    }
-                }
-*/
-
-
                 // For each shot data coming in!
-
-
             }
         }
-
-
     }
-
-
 
     class GetData extends AsyncTask<Void, Void, String>{
-
         @Override
         protected String doInBackground(Void... params) {
+            HttpClient httpClient = new HttpClient();
+            String apiUrl= "https://tennis-trainer.appspot.com/mobile/direction";
+            int count = 0;
+            int failures = 0;
+            int prevCount = -1;
+            int correct = 0;
 
-            try {
-                myClient.pullAsync("mobile-app");
-            } catch (Exception e) {
-                e.printStackTrace();
+            while(count < 50) {
+                if (prevCount != count) {
+                    int currDirection = tennisShots[count];
+
+                    if (currDirection == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.left);
+                                mp.start();
+                                tvLeft.setVisibility(View.VISIBLE);
+                                tvRight.setVisibility(View.INVISIBLE);
+                                tvCenter.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    } else if (currDirection == 1) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.center);
+                                mp.start();
+                                tvCenter.setVisibility(View.VISIBLE);
+                                tvRight.setVisibility(View.INVISIBLE);
+                                tvLeft.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    } else if (currDirection == 2) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.right);
+                                mp.start();
+                                tvRight.setVisibility(View.VISIBLE);
+                                tvLeft.setVisibility(View.INVISIBLE);
+                                tvCenter.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }
+                    prevCount = count;
+                }
+
+                String direction = httpClient.makePOST(apiUrl);
+
+                if(!Strings.isNullOrEmpty(direction)) {
+                    direction = direction.trim();
+
+                    Log.d(Constants.TAG, direction);
+
+                    if( direction.equals("Left") && tennisShots[count] == 0 ||
+                            direction.equals("Center") && tennisShots[count] == 1 ||
+                                direction.equals("Right") && tennisShots[count] == 2) {
+                        Log.d(Constants.TAG, "Correct Shot!");
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                score.setText(Integer.toString(Integer.parseInt((score.getText().toString())) + 1));
+                            }
+                        });
+                    }
+
+                    count += 1;
+                    failures = 0;
+                }
+                else {
+                    failures += 1;
+                }
+                if (failures >= 120) {
+                    break;
+                }
+                int sleepTime = 400;    // in ms
+                SystemClock.sleep(sleepTime);
             }
-
+            apiUrl = "https://tennis-trainer.appspot.com/data/end";
+            httpClient.makePOST(apiUrl);
             return null;
+        }
 
+        @Override
+        protected void onPostExecute(String s) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(DirectionGame.this);
+            builder1.setMessage("Game Has Ended");
+            builder1.setPositiveButton(
+                    "Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Call Start Game API
+
+                            dialog.cancel();
+
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
         }
     }
-
-
-
 }
 
 

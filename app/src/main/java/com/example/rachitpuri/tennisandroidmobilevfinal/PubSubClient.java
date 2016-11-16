@@ -22,14 +22,11 @@ import java.util.concurrent.Future;
 public class PubSubClient {
     PubSub client = null;
     String PROJECT_ID = "tennis-trainer";
-    String PATH_TO_JSON_KEY = "tennis-trainer-b01672e8469b.json";
-
 
     public PubSubClient(Context context) {
         try {
 
             InputStream is = context.getResources().openRawResource(R.raw.tennistrainer);
-            System.out.println(new File(".").getAbsolutePath());
             PubSubOptions options = PubSubOptions.newBuilder()
                     .setProjectId(PROJECT_ID)
                     .setCredentials(ServiceAccountCredentials.fromStream(
@@ -43,14 +40,11 @@ public class PubSubClient {
     }
 
     public void pullAsync(String subscriptionName) throws ExecutionException, InterruptedException {
-        Future<Iterator<ReceivedMessage>> future = client.pullAsync(subscriptionName, 100);
-        Iterator<ReceivedMessage> messages = future.get();
-
+        Iterator<ReceivedMessage> messages = client.pull("mobile-app", 100);
         // Ack deadline is renewed until the message is consumed
         while (messages.hasNext()) {
             ReceivedMessage message = messages.next();
             Log.d(Constants.TAG, message.getPayloadAsString());
-
             // do something with message and ack/nack it
 //	      message.ack(); // or message.nack()
         }
