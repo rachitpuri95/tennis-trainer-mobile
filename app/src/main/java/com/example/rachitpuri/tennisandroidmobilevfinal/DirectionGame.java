@@ -2,9 +2,11 @@ package com.example.rachitpuri.tennisandroidmobilevfinal;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,8 +26,16 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class DirectionGame extends AppCompatActivity {
-TextView tvLeft, tvRight, tvCenter, score;
+TextView tvLeft, tvRight, tvCenter, score, correctness;
     static int[] tennisShots = new int[50];
+
+    Runnable mRunnable;
+    Handler mHandler;
+
+    @Override
+    public void onBackPressed() {
+        // your code. Do Nothing  HAHAHHAHA !
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +70,23 @@ TextView tvLeft, tvRight, tvCenter, score;
         tvCenter = (TextView) findViewById(R.id.tvCenter);
         tvRight=(TextView) findViewById(R.id.tvRight);
         score = (TextView) findViewById(R.id.tvScoreCount);
-        score.setText("0");
+        correctness=(TextView) findViewById(R.id.tvCorrectness);
+        correctness.setVisibility(View.INVISIBLE);
+         mHandler=new Handler();
+        score.setText("0/0");
         AlertDialog alert11 = builder1.create();
         alert11.show();
+
+
+        mRunnable=new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                correctness.setVisibility(View.INVISIBLE); //If you want just hide the View. But it will retain space occupied by the View.
+               // correctness.setVisibility(View.GONE); //This will remove the View. and free s the space occupied by the View
+            }
+        };
     }
     class StartAPI extends AsyncTask<Void, Void, String> {
         @Override
@@ -83,14 +107,20 @@ TextView tvLeft, tvRight, tvCenter, score;
     }
 
     class GetData extends AsyncTask<Void, Void, String>{
+
+
+
+        int count;
+        int correct;
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new HttpClient();
             String apiUrl= "https://tennis-trainer.appspot.com/mobile/direction";
-            int count = 0;
+            count = 0;
             int failures = 0;
             int prevCount = -1;
-            int correct = 0;
+            correct = 0;
+
 
             while(count < 50) {
                 if (prevCount != count) {
@@ -143,26 +173,51 @@ TextView tvLeft, tvRight, tvCenter, score;
                     if( direction.equals("Left") && tennisShots[count] == 0 ||
                             direction.equals("Center") && tennisShots[count] == 1 ||
                                 direction.equals("Right") && tennisShots[count] == 2) {
+
                         Log.d(Constants.TAG, "Correct Shot!");
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                score.setText(Integer.toString(Integer.parseInt((score.getText().toString())) + 1));
+                                count += 1;
+                                correct= correct+1;
+                                score.setText(Integer.toString(correct)+ "/"+Integer.toString(count)  );
+                                correctness.setVisibility(View.VISIBLE);
+                                correctness.setText("Correct!");
+
+                                mHandler.postDelayed(mRunnable,1000);
+
+
+
                             }
                         });
                     }
+                    else{
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                count += 1;
+                                score.setText(Integer.toString(correct)+ "/"+Integer.toString(count));
+                                correctness.setVisibility(View.VISIBLE);
+                                correctness.setText("Incorrect!");
+                                mHandler.postDelayed(mRunnable,1000);
 
-                    count += 1;
+
+
+                            }
+                        });
+                    }
                     failures = 0;
+
+
                 }
                 else {
                     failures += 1;
                 }
-                if (failures >= 120) {
+                if (failures >= 50) {  // Failure after 30 seconds of inactivity.
                     break;
                 }
-                int sleepTime = 400;    // in ms
+                int sleepTime = 600;    // in ms
                 SystemClock.sleep(sleepTime);
             }
             apiUrl = "https://tennis-trainer.appspot.com/data/end";
@@ -172,20 +227,36 @@ TextView tvLeft, tvRight, tvCenter, score;
 
         @Override
         protected void onPostExecute(String s) {
+
+
+
             AlertDialog.Builder builder1 = new AlertDialog.Builder(DirectionGame.this);
-            builder1.setMessage("Game Has Ended");
-            builder1.setPositiveButton(
-                    "Ok",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //Call Start Game API
+            if(count < 50){
+                builder1.setMessage("Game Has Ended due to Inactivity. Your Score was: "+ score.getText().toString());
+            }
+            else{
+                builder1.setMessage("Well Done! Your score was: "+score.getText().toString() );
+            }
 
-                            dialog.cancel();
+                builder1.setPositiveButton(
+                        "Return",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //Call Start Game API
+                                Intent DepthPage = new Intent(DirectionGame.this, HomeActivity.class);
+                                DirectionGame.this.startActivity(DepthPage);
+                                dialog.cancel();
 
-                        }
-                    });
+                            }
+                        });
+
+
+            builder1.setCancelable(false);
+
+
             AlertDialog alert11 = builder1.create();
             alert11.show();
+
         }
     }
 }

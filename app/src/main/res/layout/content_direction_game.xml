@@ -62,10 +62,10 @@
             android:src="@drawable/tcourt"
             />
         <TextView
-        android:layout_width="160dp"
+        android:layout_width="165dp"
         android:layout_height="40dp"
-        android:layout_marginTop="6dip"
-        android:layout_marginRight="80dp"
+
+        android:layout_marginRight="83dp"
         android:layout_gravity="center_horizontal|center_vertical"
         android:gravity="center"
         android:padding="12dip"
@@ -76,10 +76,10 @@
         android:text="Center" />
 
         <TextView
-            android:layout_width="160dp"
+            android:layout_width="165dp"
             android:layout_height="40dp"
-            android:layout_marginTop="45dip"
-            android:layout_marginRight="80dp"
+            android:layout_marginTop="35dip"
+            android:layout_marginRight="83dp"
             android:layout_gravity="center_horizontal|center_vertical"
 
             android:padding="12dip"
@@ -90,10 +90,10 @@
             android:text="Right" />
 
         <TextView
-            android:layout_width="160dp"
+            android:layout_width="165dp"
             android:layout_height="40dp"
             android:layout_marginBottom="35dip"
-            android:layout_marginRight="80dp"
+            android:layout_marginRight="83dp"
             android:layout_gravity="center_horizontal|center_vertical"
             android:id="@+id/tvLeft"
             android:padding="12dip"
@@ -101,6 +101,21 @@
             android:textColor="#ffffffff"
             android:gravity="center"
             android:text="Left" />
+
+
+
+
+
+        <TextView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dip"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center"
+            android:padding="12dip"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/tvCorrectness"
+            android:text="Correct!" />
 
 
 

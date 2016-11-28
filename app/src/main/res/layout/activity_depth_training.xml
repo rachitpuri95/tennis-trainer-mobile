@@ -9,4 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.rachitpuri.tennisandroidmobilevfinal.DepthTraining">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ff0000"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+
+        android:text="Coming Soon! (In Play Store)"/>
+
 </RelativeLayout>

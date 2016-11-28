@@ -10,21 +10,28 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegisterActivity"
+            />
         <activity
             android:name=".HomeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
+
+
         <activity android:name=".DepthTraining" />
         <activity
             android:name=".DirectionGame"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_direction_game"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
