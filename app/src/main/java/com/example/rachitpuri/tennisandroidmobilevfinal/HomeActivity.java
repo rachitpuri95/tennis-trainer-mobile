@@ -28,13 +28,13 @@ public class HomeActivity extends AppCompatActivity {
 
     public void DepthTraining(View v) {
         // obtain myValue
-        Intent DepthPage = new Intent(HomeActivity.this, DepthTraining.class);
+        Intent DepthPage = new Intent(HomeActivity.this, DepthActivity.class);
         HomeActivity.this.startActivity(DepthPage);
     }
 
     public void ViewProgress(View v) {
         // obtain myValue
-        String temp  = "hello";
+        //String temp  = "hello";
     }
 
 }
