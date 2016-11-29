@@ -36,7 +36,7 @@ public class DepthActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(DepthActivity.this);
         builder1.setMessage("Are you ready to play?");
-
+        builder1.setCancelable(false);
         builder1.setPositiveButton(
                 "Yes",
                 new DialogInterface.OnClickListener() {
@@ -89,7 +89,7 @@ public class DepthActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new HttpClient();
-            String apiUrl= "https://tennis-trainer.appspot.com/data/begin";     // Alter the API string
+            String apiUrl= "https://tennis-trainer.appspot.com/data/depth/begin";     // Alter the API string
             return httpClient.makePOST(apiUrl);
         }
 
@@ -110,7 +110,7 @@ public class DepthActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new HttpClient();
-            String apiUrl= "https://tennis-trainer.appspot.com/mobile/direction";       // getting the depth data
+            String apiUrl= "https://tennis-trainer.appspot.com/mobile/depth";       // getting the depth data
             count = 0;
             int failures = 0;
             int prevCount = -1;
@@ -136,7 +136,7 @@ public class DepthActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.deepshot);
+                                MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.midcourt);
                                 mp.start();
                                 tvDeep.setVisibility(View.VISIBLE);
                                 tvService.setVisibility(View.INVISIBLE);
@@ -153,8 +153,8 @@ public class DepthActivity extends AppCompatActivity {
 
                     Log.d(Constants.TAG, depth);
 
-                    if( depth.equals("service") && tennisShots[count] == 0 ||
-                            depth.equals("deep") && tennisShots[count] == 1) {
+                    if( depth.equals("Service Box") && tennisShots[count] == 0 ||
+                            depth.equals("Mid Court") && tennisShots[count] == 1) {
 
                         Log.d(Constants.TAG, "Correct Shot!");
 
@@ -202,7 +202,7 @@ public class DepthActivity extends AppCompatActivity {
                 int sleepTime = 600;    // in ms
                 SystemClock.sleep(sleepTime);
             }
-            apiUrl = "https://tennis-trainer.appspot.com/data/end";
+            apiUrl = "https://tennis-trainer.appspot.com/depth/data/end";
             httpClient.makePOST(apiUrl);
             return null;
         }

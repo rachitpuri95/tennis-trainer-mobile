@@ -60,10 +60,10 @@
             android:src="@drawable/tcourt"
             />
         <TextView
-            android:layout_width="165dp"
-            android:layout_height="40dp"
+            android:layout_width="83dp"
+            android:layout_height="106dp"
 
-            android:layout_marginRight="83dp"
+            android:layout_marginLeft="125dp"
             android:layout_gravity="center_horizontal|center_vertical"
             android:gravity="center"
             android:padding="12dip"
@@ -71,15 +71,14 @@
             android:background="#AA000000"
             android:textColor="#ffffffff"
             android:id="@+id/tvDeepShot"
-            android:text="Deep Shot" />
+            android:text="Mid Court" />
 
         <TextView
-            android:layout_width="165dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="35dip"
-            android:layout_marginRight="83dp"
-            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_width="83dp"
+            android:layout_height="106dp"
 
+            android:layout_marginLeft="42dp"
+            android:layout_gravity="center_horizontal|center_vertical"
             android:padding="12dip"
             android:id="@+id/tvserviceBox"
             android:background="#AA000000"

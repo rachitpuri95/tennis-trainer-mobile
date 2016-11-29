@@ -30,7 +30,9 @@
             android:label="@string/title_activity_direction_game"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DepthActivity"></activity>
+        <activity android:name=".DepthActivity"
+            android:label="@string/title_activity_direction_game"
+  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

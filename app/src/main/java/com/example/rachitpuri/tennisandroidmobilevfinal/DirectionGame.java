@@ -46,7 +46,7 @@ TextView tvLeft, tvRight, tvCenter, score, correctness;
         AlertDialog.Builder builder1 = new AlertDialog.Builder(DirectionGame.this);
         builder1.setMessage("Are you ready to play?");
 
-
+        builder1.setCancelable(false);
         builder1.setPositiveButton(
                 "Yes",
                 new DialogInterface.OnClickListener() {
@@ -92,7 +92,7 @@ TextView tvLeft, tvRight, tvCenter, score, correctness;
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new HttpClient();
-            String apiUrl= "https://tennis-trainer.appspot.com/data/begin";
+            String apiUrl= "https://tennis-trainer.appspot.com/data/direction/begin";
             return httpClient.makePOST(apiUrl);
         }
 
@@ -220,7 +220,7 @@ TextView tvLeft, tvRight, tvCenter, score, correctness;
                 int sleepTime = 600;    // in ms
                 SystemClock.sleep(sleepTime);
             }
-            apiUrl = "https://tennis-trainer.appspot.com/data/end";
+            apiUrl = "https://tennis-trainer.appspot.com/data/direction/end";
             httpClient.makePOST(apiUrl);
             return null;
         }
